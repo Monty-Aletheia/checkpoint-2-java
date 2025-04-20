@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="#{project.name}">Biblioteca - Cadastro de Livros</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
+
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+
+        .container {
+            max-width: 900px;
+        }
+
+        .table {
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .btn-add {
+            background-color: #007BFF;
+            color: white;
+            border-radius: 20px;
+            font-weight: bold;
+        }
+
+        .btn-add:hover {
+            background-color: #0056b3;
+        }
+
+        .empty-message {
+            text-align: center;
+            color: #6c757d;
+        }
+
+        .empty-message i {
+            font-size: 50px;
+            margin-bottom: 10px;
+            color: #6c757d;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container mt-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="text-primary">
+            <i class="bi bi-book" th:text="#{project.name}"></i>
+        </h1>
+        <a th:href="@{/books/new}" class="btn btn-add">
+            <i class="bi bi-plus-lg" th:text="#{book.add}"></i>
+        </a>
+    </div>
+
+    <div th:if="${not #lists.isEmpty(books)}">
+        <div class="table-responsive">
+            <table class="table table-striped table-hover shadow">
+                <thead class="table-dark">
+                <tr>
+                    <th th:text="#{book.title}">Título</th>
+                    <th th:text="#{book.authorName}">Autor</th>
+                    <th th:text="#{book.releaseDate}">Data de publicação</th>
+                    <th th:text="#{book.genre}">Gênero</th>
+                    <th th:text="#{book.publisher}">Editora</th>
+                    <th th:text="#{book.publisherPhone}">Telefone da Editora</th>
+                    <th th:text="#{book.price}">Preço</th>
+                    <th class="text-center" th:text="#{book.actions}">Ações</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="book : ${books}">
+                    <td th:text="${book.title}"></td>
+                    <td th:text="${book.authorName}"></td>
+                    <td th:text="${#temporals.format(book.releaseDate, #messages.msg('date.format'))}"></td>
+                    <td th:text="${book.genre}"></td>
+                    <td th:text="${book.publisher}"></td>
+                    <td th:text="${book.publisherPhone}"></td>
+                    <td th:text="#{book.priceLabel} + ${#numbers.formatDecimal(book.price, 1, 2)}"></td>
+                    <td class="text-center">
+                        <a th:href="@{/books/form/{id}(id=${book.id})}" class="btn btn-warning btn-sm">
+                            <i class="bi bi-pencil-square"></i>
+                        </a>
+                        <a th:href="@{/books/delete/{id}(id=${book.id})}" class="btn btn-danger btn-sm" onclick="return confirm('Tem certeza que deseja excluir este livro?');">
+                            <i class="bi bi-trash"></i>
+                        </a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div th:if="${#lists.isEmpty(books)}" class="empty-message mt-4">
+        <i class="bi bi-emoji-frown"></i>
+        <p class="fs-5" th:text="#{book.none}">Nenhum livro cadastrado no momento.</p>
+    </div>
+</div>
+<footer style="color: #6c757d; position: fixed; bottom: 0; left: 0; width: 100%; background-color: #f8f9fa;">
+    <div class="d-flex justify-content-center mt-3 mb-3">
+        <a href="?lang=pt" class="btn btn-light btn-sm mx-2 d-flex align-items-center" style="border-radius: 20px;">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/0/05/Flag_of_Brazil.svg" alt="Português" class="me-2" style="width: 20px; height: 14px;">
+            Português
+        </a>
+        <a href="?lang=en" class="btn btn-light btn-sm mx-2 d-flex align-items-center" style="border-radius: 20px;">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/a/a4/Flag_of_the_United_States.svg" alt="English" class="me-2" style="width: 20px; height: 14px;">
+            English
+        </a>
+    </div>
+</footer>
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>
