@@ -1,14 +1,20 @@
 server:
   port: ${SERVER_PORT:8080}
+  servlet:
+    encoding:
+      charset: UTF-8
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: prometheus
 
 spring:
   application:
     name: checkpoint
   thymeleaf:
     cache: false
-  http:
-    encoding:
-      charset: UTF-8
   jpa:
     open-in-view: true
     database-platform: org.hibernate.dialect.H2Dialect
@@ -23,17 +29,16 @@ spring:
     password:
     driver-class-name: org.h2.Driver
   messages:
-      encoding: UTF-8
-      basename: messages
+    encoding: UTF-8
+    basename: messages
   h2:
     console:
       enabled: true
-      path: /h2-console 
-    show-sql: true
-
+      path: /h2-console
   devtools:
     restart:
       enabled: true
+
 logging:
   level:
     root: INFO
@@ -45,3 +50,5 @@ logging:
           descriptor:
             sql:
               BasicBinder: TRACE
+      springframework:
+        boot.actuate: DEBUG
