@@ -72,7 +72,7 @@
                     <th th:text="#{book.publisher}">Editora</th>
                     <th th:text="#{book.publisherPhone}">Telefone da Editora</th>
                     <th th:text="#{book.price}">Preço</th>
-                    <th class="text-center" th:text="#{book.actions}">Ações</th>
+                    <th sec:authorize="hasRole('ADMIN')" class="text-center" th:text="#{book.actions}">Ações</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -84,7 +84,7 @@
                     <td th:text="${book.publisher}"></td>
                     <td th:text="${book.publisherPhone}"></td>
                     <td th:text="#{book.priceLabel} + ${#numbers.formatDecimal(book.price, 1, 2)}"></td>
-                    <td class="text-center">
+                    <td sec:authorize="hasRole('ADMIN')" class="text-center">
                         <a th:href="@{/books/form/{id}(id=${book.id})}" class="btn btn-warning btn-sm">
                             <i class="bi bi-pencil-square"></i>
                         </a>
