@@ -1,0 +1,29 @@
+<!-- templates/fragments/header.html -->
+<div th:fragment="header">
+  <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm fixed-top">
+    <div class="container-fluid px-4">
+      <a class="navbar-brand text-primary fw-bold" th:href="@{/}">
+        <i class="bi bi-book"></i>
+        <span>Bem-vindo!</span>
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+              data-bs-target="#navbarMenu" aria-controls="navbarMenu"
+              aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarMenu">
+        <ul class="navbar-nav ms-auto align-items-center">
+          <!-- aqui você pode adicionar outros itens de menu -->
+          <li class="nav-item">
+            <form th:action="@{/logout}" method="post">
+              <i class="bi bi-box-arrow-in-right me-1"></i>
+              <button>Logout</button>
+            </form>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+  <!-- empurra o conteúdo para baixo, já que o nav está fixed -->
+  <div style="height: 70px;"></div>
+</div>
