@@ -72,17 +72,17 @@
             </div>
 
             <div class="mb-4">
-                <label for="password" class="form-label">Senha</label>
+                <label for="password" class="form-label" th:text="#{login.password}">Senha</label>
                 <input id="password" name="password" type="password" class="form-control" required>
             </div>
 
             <div class="mb-4 form-check">
                 <input id="remember-me" name="remember-me" type="checkbox" class="form-check-input">
-                <label for="remember-me" class="form-check-label">Lembrar de mim</label>
+                <label for="remember-me" class="form-check-label" th:text="#{login.rememberme}">Lembrar de mim</label>
             </div>
 
             <div class="d-grid">
-                <button type="submit" class="btn btn-login">Entrar</button>
+                <button type="submit" class="btn btn-login" th:text="#{login.submit}">Entrar</button>
             </div>
         </form>
     </div>

@@ -55,7 +55,7 @@
         <h1 class="text-primary">
             <i class="bi bi-book" th:text="#{project.name}"></i>
         </h1>
-        <a th:href="@{/books/new}" class="btn btn-add">
+        <a sec:authorize="hasRole('ADMIN')" th:href="@{/books/new}" class="btn btn-add">
             <i class="bi bi-plus-lg" th:text="#{book.add}"></i>
         </a>
     </div>
