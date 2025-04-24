@@ -1,1 +1,1 @@
-INSERT INTO users (name, email, password) VALUES ('Administrador', 'admin@gmail.com', '$2y$10$0coroPG2Q17prxGuDwkzBezEcyhK7JEOvaIuG7HwCoTG0zMwqSFge');
+INSERT INTO users (name, email, password, role) VALUES ('Administrador', 'admin@gmail.com', '$2y$10$0coroPG2Q17prxGuDwkzBezEcyhK7JEOvaIuG7HwCoTG0zMwqSFge', 'ADMIN');
