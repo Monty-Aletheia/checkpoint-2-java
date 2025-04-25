@@ -60,4 +60,22 @@ public class User implements UserDetails {
     public void setRole(Role role) {
         this.role = role;
     }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public User() {
+    }
+
+    public User(Role role, String password, String email, String name) {
+        this.role = role;
+        this.password = password;
+        this.email = email;
+        this.name = name;
+    }
 }

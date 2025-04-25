@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title th:text="#{project.name}">Registro</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
+
+  <style>
+    body {
+        background-color: #f8f9fa;
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .container {
+        max-width: 400px;
+    }
+
+    .card {
+        border-radius: 12px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        border: none;
+    }
+
+    .btn-register {
+        background-color: #007BFF;
+        color: white;
+        border-radius: 20px;
+        font-weight: bold;
+    }
+
+    .btn-register:hover {
+        background-color: #0056b3;
+    }
+
+    .title{
+      color: #007BFF;
+    }
+
+
+    footer {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        background-color: #f8f9fa;
+        color: #6c757d;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <div class="card p-4">
+    <h3 class="text-center mb-4 text-primary" th:text="#{register.title}" ></h3>
+
+    <form method="post" th:action="@{/account/add}" th:object="${user}">
+      <div class="mb-3">
+        <label for="name" class="form-label" th:text="#{register.name}"></label>
+        <input id="name" name="name" type="text" class="form-control" th:field="*{name}" required>
+      </div>
+
+      <div class="mb-3">
+        <label for="email" class="form-label" >Email</label>
+        <input id="email" name="email" type="email" class="form-control" th:field="*{email}" required>
+      </div>
+
+      <div class="mb-4">
+        <label for="password" class="form-label" th:text="#{register.password}"></label>
+        <input id="password" name="password" type="password" class="form-control" th:field="*{password}" required>
+      </div>
+
+      <div class="d-grid">
+        <button type="submit" class="btn btn-register" th:text="#{register.button}"></button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<footer>
+  <div class="d-flex justify-content-center mt-3 mb-3">
+    <a href="?lang=pt" class="btn btn-light btn-sm mx-2 d-flex align-items-center" style="border-radius: 20px;">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/0/05/Flag_of_Brazil.svg" alt="Português" class="me-2" style="width: 20px; height: 14px;">
+      Português
+    </a>
+    <a href="?lang=en" class="btn btn-light btn-sm mx-2 d-flex align-items-center" style="border-radius: 20px;">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/a/a4/Flag_of_the_United_States.svg" alt="English" class="me-2" style="width: 20px; height: 14px;">
+      English
+    </a>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>
