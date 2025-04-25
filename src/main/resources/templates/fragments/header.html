@@ -16,13 +16,22 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarMenu">
                 <ul class="navbar-nav ms-auto align-items-center">
-                    <!-- aqui você pode adicionar outros itens de menu -->
+
+                    <!-- Botão "Usuários" visível apenas para administradores -->
+                    <li class="nav-item" sec:authorize="hasRole('ADMIN')">
+                        <a class="btn btn-outline-secondary ms-2" th:href="@{/users/list}">
+                            <i class="bi bi-people-fill me-1"></i>
+                            <span th:text="#{header.adminUsers}">Usuários</span>
+                        </a>
+                    </li>
+
                     <li class="nav-item">
-                        <form th:action="@{/logout}" method="post">
+                        <form th:action="@{/logout}" method="post" class="d-inline">
                             <i class="bi bi-box-arrow-in-right me-1"></i>
                             <button th:text="#{header.logout}">Sair</button>
                         </form>
                     </li>
+
                 </ul>
             </div>
         </div>

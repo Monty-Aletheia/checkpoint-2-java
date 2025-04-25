@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="#{admin.users.title}">Usuários Cadastrados</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
+
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+
+        .container {
+            max-width: 900px;
+        }
+
+        .table {
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .empty-message {
+            text-align: center;
+            color: #6c757d;
+        }
+
+        .empty-message i {
+            font-size: 50px;
+            margin-bottom: 10px;
+            color: #6c757d;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container mt-5">
+    <div th:replace="fragments/header :: header"></div>
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="text-primary">
+            <i class="bi bi-people-fill me-2"></i>
+            <span th:text="#{admin.users.title}">Usuários Cadastrados</span>
+        </h1>
+    </div>
+
+    <div th:if="${not #lists.isEmpty(users)}">
+        <div class="table-responsive">
+            <table class="table table-striped table-hover shadow">
+                <thead class="table-dark">
+                <tr>
+                    <th>ID</th>
+                    <th th:text="#{user.name}">Nome</th>
+                    <th th:text="#{user.email}">Email</th>
+                    <th th:text="#{user.role}">Perfil</th>
+                    <th sec:authorize="hasRole('ADMIN')" class="text-center" th:text="#{book.actions}">Ações</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="user : ${users}">
+                    <td th:text="${user.id}"></td>
+                    <td th:text="${user.name}"></td>
+                    <td th:text="${user.username}"></td>
+                    <td>
+                        <form th:action="@{/users/changeRole}" method="post" class="d-flex align-items-center" style="gap: 5px;">
+                            <input type="hidden" name="userId" th:value="${user.id}" />
+                            <select name="role" class="form-select form-select-sm" style="width: auto;">
+                                <option th:each="roleOption : ${T(br.com.fiap.checkpoint.model.enums.Role).values()}"
+                                        th:value="${roleOption}"
+                                        th:text="${roleOption}"
+                                        th:selected="${user.role == roleOption}">ROLE</option>
+                            </select>
+                            <button type="submit" class="btn btn-sm btn-success">
+                                <i class="bi bi-check-circle"></i>
+                            </button>
+                        </form>
+                    </td>
+
+                    <td sec:authorize="hasRole('ADMIN')" class="text-center">
+                        <a th:href="@{/users/delete/{id}(id=${user.id})}" class="btn btn-danger btn-sm" onclick="return confirm('Tem certeza que deseja excluir este usuário?');">
+                            <i class="bi bi-trash"></i>
+                        </a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div th:if="${#lists.isEmpty(users)}" class="empty-message mt-4">
+        <i class="bi bi-emoji-frown"></i>
+        <p class="fs-5" th:text="#{user.none}">Nenhum usuário cadastrado no momento.</p>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>
