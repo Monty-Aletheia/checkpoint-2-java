@@ -41,6 +41,11 @@
             border-radius: 10px;
         }
 
+        .redirectText{
+            text-align: center;
+            align-self: center;
+        }
+
         footer {
             position: fixed;
             bottom: 0;
@@ -83,6 +88,10 @@
 
             <div class="d-grid">
                 <button type="submit" class="btn btn-login" th:text="#{login.submit}">Entrar</button>
+            </div>
+
+            <div  class="text-center mt-4">
+                <a class="text-primary fw-semibold" th:text="#{login.redirect}" th:href="@{/account/register}"></a>
             </div>
         </form>
     </div>
