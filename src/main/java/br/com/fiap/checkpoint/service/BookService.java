@@ -18,17 +18,17 @@ import java.util.Optional;
 @Service
 public class BookService {
 
-    @Autowired
-    private BookRepository repository;
+    private final BookRepository repository;
+
+    private final MeterRegistry registry;
+
+    private final Counter booksCreatedCounter;
 
     @Autowired
-    private MeterRegistry registry;
-
-    private Counter booksCreatedCounter;
-
-    @PostConstruct
-    public void initMetrics() {
-        booksCreatedCounter = Counter.builder("books_created_total")
+    public BookService(BookRepository repository, MeterRegistry registry) {
+        this.repository = repository;
+        this.registry = registry;
+        this.booksCreatedCounter = Counter.builder("books_created_total")
                 .description("Total de livros criados com sucesso")
                 .register(registry);
     }
@@ -48,6 +48,8 @@ public class BookService {
         sample.stop(registry.timer("book.creation.time"));
 
         booksCreatedCounter.increment();
+
+        registry.counter("books_created_total", "status", "success").increment();
     }
 
     public void delete(Long id){
