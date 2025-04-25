@@ -1,7 +1,7 @@
 package br.com.fiap.checkpoint.service;
 
-import br.com.fiap.checkpoint.model.User;
 import br.com.fiap.checkpoint.dto.UserRequestDTO;
+import br.com.fiap.checkpoint.model.User;
 import br.com.fiap.checkpoint.model.enums.Role;
 import br.com.fiap.checkpoint.repository.UserRepository;
 import io.micrometer.core.instrument.Counter;
@@ -15,10 +15,13 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+import java.time.LocalDate;
+
 @Service
 public class UserService implements UserDetailsService {
 
     private final UserRepository userRepository;
+
     private final PasswordEncoder passwordEncoder;
     private final MeterRegistry meterRegistry;
 

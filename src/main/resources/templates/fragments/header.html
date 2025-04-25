@@ -17,10 +17,9 @@
             <div class="collapse navbar-collapse" id="navbarMenu">
                 <ul class="navbar-nav ms-auto align-items-center">
 
-                    <!-- Botão "Usuários" visível apenas para administradores -->
                     <li class="nav-item" sec:authorize="hasRole('ADMIN')">
                         <a class="btn btn-outline-secondary ms-2" th:href="@{/users/list}">
-                            <i class="bi bi-people-fill me-1"></i>
+                            <i class="bi bi-people-fill me-1" ></i>
                             <span th:text="#{header.adminUsers}">Usuários</span>
                         </a>
                     </li>

@@ -49,6 +49,11 @@ spring:
 
 logging:
   level:
+    org.thymeleaf: DEBUG
+    org.thymeleaf.TemplateEngine: DEBUG
+    org.thymeleaf.templateresolver: DEBUG
+    org.thymeleaf.spring6: DEBUG
+    org.thymeleaf.spring6.view: DEBUG
     root: INFO
     br: DEBUG
     org:
@@ -60,3 +65,4 @@ logging:
               BasicBinder: TRACE
       springframework:
         boot.actuate: DEBUG
+

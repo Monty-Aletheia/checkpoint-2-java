@@ -1,9 +1,7 @@
 package br.com.fiap.checkpoint.controller;
 
 
-import br.com.fiap.checkpoint.dto.BookRequestDTO;
 import br.com.fiap.checkpoint.dto.UserRequestDTO;
-import br.com.fiap.checkpoint.model.Book;
 import br.com.fiap.checkpoint.model.User;
 import br.com.fiap.checkpoint.service.UserService;
 import jakarta.validation.Valid;
