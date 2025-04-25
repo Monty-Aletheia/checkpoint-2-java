@@ -8,7 +8,10 @@ management:
   endpoints:
     web:
       exposure:
-        include: prometheus
+        include: '*'
+  metrics:
+    enable:
+      all: true
 
 spring:
   application:

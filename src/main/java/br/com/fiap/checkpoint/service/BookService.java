@@ -4,6 +4,10 @@ import br.com.fiap.checkpoint.dto.BookRequestDTO;
 import br.com.fiap.checkpoint.dto.BookResponseDTO;
 import br.com.fiap.checkpoint.model.Book;
 import br.com.fiap.checkpoint.repository.BookRepository;
+import io.micrometer.core.instrument.Counter;
+import io.micrometer.core.instrument.MeterRegistry;
+import io.micrometer.core.instrument.Timer;
+import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,35 +21,33 @@ public class BookService {
     @Autowired
     private BookRepository repository;
 
+    @Autowired
+    private MeterRegistry registry;
+
+    private Counter booksCreatedCounter;
+
+    @PostConstruct
+    public void initMetrics() {
+        booksCreatedCounter = Counter.builder("books_created_total")
+                .description("Total de livros criados com sucesso")
+                .register(registry);
+    }
+
     public List<BookResponseDTO> getAllBooks(){
         List<Book> books = repository.findAll();
-        return books.stream().map(
-                book -> {
-                    return new BookResponseDTO(
-                            book.getId(),
-                            book.getTitle(),
-                            book.getAuthorName(),
-                            book.getReleaseDate(),
-                            book.getGenre(),
-                            book.getNumberOfPages(),
-                            book.getPublisher(),
-                            book.getPublisherPhone(),
-                            book.getPrice());
-                }
-                ).toList();
+        return books.stream().map(this::convertToDto).toList();
     }
 
     public void createBook(BookRequestDTO dto){
-        Book book = new Book();
-        book.setTitle(dto.title());
-        book.setAuthorName(dto.authorName());
-        book.setReleaseDate(LocalDate.now());
-        book.setGenre(dto.genre());
-        book.setNumberOfPages(dto.numberOfPages());
-        book.setPublisher(dto.publisher());
-        book.setPrice(dto.price());
-        book.setPublisherPhone(dto.publisherPhone());
+        Timer.Sample sample = Timer.start(registry);
+
+        Book book = convertToEntity(dto);
+
         repository.save(book);
+
+        sample.stop(registry.timer("book.creation.time"));
+
+        booksCreatedCounter.increment();
     }
 
     public void delete(Long id){
@@ -59,16 +61,7 @@ public class BookService {
         if (bookById.isEmpty()){
             throw new IllegalArgumentException("Livro de id " + id + " nao encontrado");
         }
-        return new BookResponseDTO(
-                bookById.get().getId(),
-                bookById.get().getTitle(),
-                bookById.get().getAuthorName(),
-                bookById.get().getReleaseDate(),
-                bookById.get().getGenre(),
-                bookById.get().getNumberOfPages(),
-                bookById.get().getPublisher(),
-                bookById.get().getPublisherPhone(),
-                bookById.get().getPrice());
+        return this.convertToDto(bookById.get());
     }
 
     public void update(Long id, BookRequestDTO dto) {
@@ -100,6 +93,34 @@ public class BookService {
             }
             repository.save(book.get());
         }
+    }
 
+    private BookResponseDTO convertToDto(Book book){
+        return new BookResponseDTO(
+                book.getId(),
+                book.getTitle(),
+                book.getAuthorName(),
+                book.getReleaseDate(),
+                book.getGenre(),
+                book.getNumberOfPages(),
+                book.getPublisher(),
+                book.getPublisherPhone(),
+                book.getPrice());
+    }
+
+    private Book convertToEntity(BookRequestDTO dto){
+        Book entity = new Book();
+
+        entity.setTitle(dto.title());
+        entity.setAuthorName(dto.authorName());
+        entity.setReleaseDate(LocalDate.now());
+        entity.setGenre(dto.genre());
+        entity.setNumberOfPages(dto.numberOfPages());
+        entity.setPublisher(dto.publisher());
+        entity.setPrice(dto.price());
+        entity.setPublisherPhone(dto.publisherPhone());
+
+        return entity;
     }
 }
+
