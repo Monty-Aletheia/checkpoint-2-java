@@ -30,12 +30,10 @@ public class UserService implements UserDetailsService {
         this.passwordEncoder = passwordEncoder;
         this.meterRegistry = meterRegistry;
 
-        // Count user criados
         this.usersCreatedCounter = Counter.builder("users_created_total")
                 .description("Total de usuários criados com sucesso")
                 .register(meterRegistry);
 
-        // Tempo pra criar o user
         this.userCreationTimer = Timer.builder("user.creation.time")
                 .description("Tempo gasto para criar um usuário")
                 .register(meterRegistry);
@@ -61,7 +59,7 @@ public class UserService implements UserDetailsService {
         User user = new User(Role.USER, passwordEncoder.encode(dto.password()), dto.email(), dto.name());
         userRepository.save(user);
 
-        sample.stop(userCreationTimer); // tempo de criação
-        usersCreatedCounter.increment(); // contador de criação
+        sample.stop(userCreationTimer);
+        usersCreatedCounter.increment();
     }
 }
